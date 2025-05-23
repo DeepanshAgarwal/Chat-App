@@ -1,0 +1,12 @@
+BUGS
+- disable buttons while on loading state
+- 
+
+
+FIXES
+- profile page - change upload profile image button, add it to right side preferably a camera button
+-
+
+
+FEATURES
+-
