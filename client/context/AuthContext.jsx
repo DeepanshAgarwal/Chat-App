@@ -85,9 +85,6 @@ export const AuthProvider = ({ children }) => {
         newSocket.connect();
         setSocket(newSocket);
 
-        newSocket.connect();
-        setSocket(newSocket);
-
         newSocket.on("getOnlineUsers", (userIds) => {
             setOnlineUsers(userIds);
         });

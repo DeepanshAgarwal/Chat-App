@@ -1,12 +1,13 @@
 BUGS
 - disable buttons while on loading state
-- 
+- while sending messages - text cuts at end of line and remaining comes in next line
 
 
 FIXES
 - profile page - change upload profile image button, add it to right side preferably a camera button
--
+- load few messages at once (lazy loading)
+- 
 
 
 FEATURES
--
+- message: edit, delete
