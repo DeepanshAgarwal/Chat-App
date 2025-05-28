@@ -10,6 +10,8 @@ import { Server } from "socket.io";
 const app = express();
 const server = http.createServer(app);
 
+const PORT = process.env.PORT || 5000;
+
 //socket.io init
 export const io = new Server(server, {
     cors: { origin: "*" },
@@ -50,7 +52,6 @@ await connectDB();
 
 //this will work only on local host
 if (process.env.NODE_ENV !== "production") {
-    const PORT = process.env.PORT || 5000;
     server.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });
