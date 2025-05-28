@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import RightSidebar from "../components/RightSideBar";
+import RightSidebar from "../components/RightSidebar";
 import Sidebar from "../components/Sidebar";
 import ChatContainer from "../components/ChatContainer";
 import { ChatContext } from "../../context/ChatContext";
