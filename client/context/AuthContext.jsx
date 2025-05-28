@@ -81,8 +81,9 @@ export const AuthProvider = ({ children }) => {
             query: {
                 userId: userData._id,
             },
+            withCredentials: true,
         });
-        newSocket.connect();
+        // newSocket.connect();
         setSocket(newSocket);
 
         newSocket.on("getOnlineUsers", (userIds) => {

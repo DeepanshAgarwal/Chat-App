@@ -6,7 +6,7 @@ BUGS
 FIXES
 - profile page - change upload profile image button, add it to right side preferably a camera button
 - load few messages at once (lazy loading)
-- 
+- context folder location
 
 
 FEATURES

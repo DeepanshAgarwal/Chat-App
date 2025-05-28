@@ -14,7 +14,11 @@ const PORT = process.env.PORT || 5000;
 
 //socket.io init
 export const io = new Server(server, {
-    cors: { origin: "*" },
+    cors: {
+        origin: "https://chat-app-deepansh.vercel.app",
+        methods: ["GET", "POST", "PUT"],
+        credentials: true,
+    },
 });
 
 //store online users
@@ -38,7 +42,12 @@ io.on("connection", (socket) => {
 });
 
 //Middlewares
-app.use(cors());
+app.use(
+    cors({
+        origin: "https://chat-app-deepansh.vercel.app",
+        credentials: true,
+    })
+);
 app.use(express.json({ limit: "4mb" }));
 
 //Routes
