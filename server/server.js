@@ -39,9 +39,14 @@ io.on("connection", (socket) => {
     //emit online users to all connected clients
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
         console.log("User Disconnected", userId);
         delete userSocketMap[userId];
+        // Update lastSeen on disconnect
+        if (userId) {
+            const User = (await import("./models/user.model.js")).default;
+            await User.findByIdAndUpdate(userId, { lastSeen: new Date() });
+        }
         io.emit("getOnlineUsers", Object.keys(userSocketMap));
     });
 });

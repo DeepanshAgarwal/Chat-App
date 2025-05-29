@@ -10,8 +10,7 @@ export const ChatProvider = ({ children }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [unseenMessages, setUnseenMessages] = useState({});
     const [latestMessages, setLatestMessages] = useState({});
-
-    const { socket, axios } = useContext(AuthContext);
+    const { socket, axios, onlineUsers } = useContext(AuthContext);
 
     //get all users for sidebar
     const getUsers = async () => {
@@ -87,6 +86,19 @@ export const ChatProvider = ({ children }) => {
     const unsubscribeToMessages = () => {
         if (socket) socket.off("newMessage");
     };
+
+    // Fetch latest selectedUser data if onlineUsers changes and selectedUser is now offline
+    useEffect(() => {
+        if (selectedUser && !onlineUsers.includes(selectedUser._id)) {
+            // Re-fetch user data for selectedUser
+            axios.get('/api/messages/users').then(({ data }) => {
+                if (data.success) {
+                    const updated = data.users.find(u => u._id === selectedUser._id);
+                    if (updated) setSelectedUser(updated);
+                }
+            });
+        }
+    }, [onlineUsers, selectedUser, axios]);
 
     useEffect(() => {
         subscribeToMessages();

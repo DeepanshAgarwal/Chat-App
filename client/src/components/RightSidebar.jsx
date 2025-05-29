@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import assets, { imagesDummyData } from "../assets/assets.js";
 import { ChatContext } from "../context/ChatContext";
 import { AuthContext } from "../context/AuthContext";
+import { formatLastSeen } from "../lib/utils";
 
 const RightSidebar = () => {
     const { selectedUser, messages } = useContext(ChatContext);
@@ -29,13 +30,22 @@ const RightSidebar = () => {
                         alt=""
                         className="w-20 aspect-[1/1] rounded-full"
                     />
-                    <h1 className="px-10 text-xl font-medium mx-auto flex items-center gap-2">
-                        {onlineUsers.includes(selectedUser._id) ? (
-                            <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                        ) : (
-                            <span className="w-2 h-2 rounded-full bg-gray-500"></span>
-                        )}
-                        {selectedUser.fullName}
+                    <h1 className="px-10 text-xl font-medium mx-auto flex flex-col items-center gap-1">
+                        <span className="flex items-center gap-2">
+                            {onlineUsers.includes(selectedUser._id) ? (
+                                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                            ) : (
+                                <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                            )}
+                            {selectedUser.fullName}
+                        </span>
+                        {!onlineUsers.includes(selectedUser._id) &&
+                            selectedUser.lastSeen && (
+                                <span className="text-xs text-gray-300 font-light mt-0.5">
+                                    Last seen:{" "}
+                                    {formatLastSeen(selectedUser.lastSeen)}
+                                </span>
+                            )}
                     </h1>
                     <p className="px-10 mx-auto">{selectedUser.bio}</p>
                 </div>

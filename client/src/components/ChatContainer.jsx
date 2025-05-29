@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import assets, { messagesDummyData } from "../assets/assets";
-import { formatMessageTime } from "../lib/utils";
+import { formatMessageTime, formatLastSeen } from "../lib/utils";
 import { ChatContext } from "../context/ChatContext";
 import { AuthContext } from "../context/AuthContext";
 
@@ -62,14 +62,21 @@ const ChatContainer = () => {
                     alt=""
                     className="w-8 rounded-full"
                 />
-                <p className="flex-1 text-lg text-white flex items-center gap-2">
-                    {selectedUser.fullName}
-                    {onlineUsers.includes(selectedUser._id) ? (
-                        <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                    ) : (
-                        <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                <div className="flex-1 text-lg text-white flex flex-col gap-0 items-start justify-center min-h-0">
+                    <span className="flex items-center gap-2">
+                        {selectedUser.fullName}
+                        {onlineUsers.includes(selectedUser._id) ? (
+                            <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                        ) : (
+                            <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                        )}
+                    </span>
+                    {!onlineUsers.includes(selectedUser._id) && selectedUser.lastSeen && (
+                        <span className="text-xs text-gray-300 font-light mt-0.5 leading-none">
+                            Last seen: {formatLastSeen(selectedUser.lastSeen)}
+                        </span>
                     )}
-                </p>
+                </div>
                 <img
                     onClick={() => setSelectedUser(null)}
                     src={assets.arrow_icon}
