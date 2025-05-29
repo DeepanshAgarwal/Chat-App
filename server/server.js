@@ -12,10 +12,15 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+    "https://chat-app-deepansh.vercel.app",
+    "http://localhost:5173",
+];
+
 //socket.io init
 export const io = new Server(server, {
     cors: {
-        origin: "https://chat-app-deepansh.vercel.app",
+        origin: allowedOrigins,
         methods: ["GET", "POST", "PUT"],
         credentials: true,
     },
@@ -44,7 +49,7 @@ io.on("connection", (socket) => {
 //Middlewares
 app.use(
     cors({
-        origin: "https://chat-app-deepansh.vercel.app",
+        origin: allowedOrigins,
         credentials: true,
     })
 );
@@ -62,13 +67,3 @@ await connectDB();
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-//this will work only on local host
-// if (process.env.NODE_ENV !== "production") {
-//     server.listen(PORT, () => {
-//         console.log(`Server is running on port ${PORT}`);
-//     });
-// }
-
-//for vercel
-// export default server;

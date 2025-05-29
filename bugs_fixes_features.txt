@@ -7,7 +7,12 @@ FIXES
 - profile page - change upload profile image button, add it to right side preferably a camera button
 - load few messages at once (lazy loading)
 - context folder location
+- phone resolution is overflowing vertically
+- sort users based on latest messages
 
 
 FEATURES
 - message: edit, delete
+- display last seen
+- emoji panel
+- collapseable right sidebar
