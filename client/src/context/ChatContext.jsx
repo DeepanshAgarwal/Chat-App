@@ -94,11 +94,16 @@ export const ChatProvider = ({ children }) => {
             axios.get('/api/messages/users').then(({ data }) => {
                 if (data.success) {
                     const updated = data.users.find(u => u._id === selectedUser._id);
-                    if (updated) setSelectedUser(updated);
+                    // Only update if user data actually changed
+                    if (updated && JSON.stringify(updated) !== JSON.stringify(selectedUser)) {
+                        setSelectedUser(updated);
+                    }
                 }
             });
         }
-    }, [onlineUsers, selectedUser, axios]);
+        // Prevent effect loop: do not update selectedUser if not needed
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [onlineUsers, selectedUser?._id, axios]);
 
     useEffect(() => {
         subscribeToMessages();
