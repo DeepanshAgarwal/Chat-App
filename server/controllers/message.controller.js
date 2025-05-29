@@ -11,7 +11,22 @@ export const getUsersForSidebar = async (req, res) => {
         );
 
         const unseenMessages = {};
+        const latestMessages = {};
+
         const promises = filteredUsers.map(async (user) => {
+            // Find latest message between logged-in user and this user
+            const latestMsg = await Message.findOne({
+                $or: [
+                    { senderId: userId, receiverId: user._id },
+                    { senderId: user._id, receiverId: userId },
+                ],
+            })
+                .sort({ createdAt: -1 })
+                .limit(1);
+
+            latestMessages[user._id] = latestMsg ? latestMsg.createdAt : null;
+
+            // Count unseen messages
             const messages = await Message.find({
                 senderId: user._id,
                 receiverId: userId,
@@ -22,7 +37,12 @@ export const getUsersForSidebar = async (req, res) => {
             }
         });
         await Promise.all(promises);
-        res.json({ success: true, users: filteredUsers, unseenMessages });
+        res.json({
+            success: true,
+            users: filteredUsers,
+            unseenMessages,
+            latestMessages,
+        });
     } catch (error) {
         console.log(error.message);
         res.json({ success: false, message: error.message });

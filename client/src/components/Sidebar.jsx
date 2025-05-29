@@ -12,11 +12,12 @@ const Sidebar = () => {
         setSelectedUser,
         unseenMessages,
         setUnseenMessages,
+        latestMessages,
     } = useContext(ChatContext);
 
     const { logout, onlineUsers } = useContext(AuthContext);
 
-    const [input, setInput] = useState(false);
+    const [input, setInput] = useState("");
 
     const navigate = useNavigate();
 
@@ -25,6 +26,20 @@ const Sidebar = () => {
               user.fullName.toLowerCase().includes(input.toLowerCase())
           )
         : users;
+
+    // Sort users by latest message timestamp (descending)
+    let sortedUsers = filteredUsers;
+    if (typeof latestMessages === "object" && latestMessages !== null) {
+        sortedUsers = [...filteredUsers].sort((a, b) => {
+            const aTime = latestMessages[a._id]
+                ? new Date(latestMessages[a._id]).getTime()
+                : 0;
+            const bTime = latestMessages[b._id]
+                ? new Date(latestMessages[b._id]).getTime()
+                : 0;
+            return bTime - aTime;
+        });
+    }
 
     useEffect(() => {
         getUsers();
@@ -79,7 +94,7 @@ const Sidebar = () => {
             </div>
 
             <div className="flex flex-col">
-                {filteredUsers.map((user, index) => (
+                {sortedUsers.map((user, index) => (
                     <div
                         onClick={() => {
                             setSelectedUser(user);
@@ -88,9 +103,11 @@ const Sidebar = () => {
                                 [user._id]: 0,
                             }));
                         }}
-                        key={index}
+                        key={user._id}
                         className={`relative flex flex-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${
-                            selectedUser?._id === user._id && "bg-[#282142]/50"
+                            selectedUser && selectedUser._id === user._id
+                                ? "bg-[#282142]/50"
+                                : ""
                         }`}
                     >
                         <img

@@ -9,6 +9,7 @@ export const ChatProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [unseenMessages, setUnseenMessages] = useState({});
+    const [latestMessages, setLatestMessages] = useState({});
 
     const { socket, axios } = useContext(AuthContext);
 
@@ -19,9 +20,10 @@ export const ChatProvider = ({ children }) => {
             if (data.success) {
                 setUsers(data.users);
                 setUnseenMessages(data.unseenMessages);
+                setLatestMessages(data.latestMessages);
             }
         } catch {
-            toast.error(error.messages);
+            toast.error("Failed to fetch users");
         }
     };
 
@@ -49,6 +51,7 @@ export const ChatProvider = ({ children }) => {
                     ...prevMessages,
                     data.newMessage,
                 ]);
+                getUsers();
             } else {
                 toast.error(data.success);
             }
@@ -76,6 +79,7 @@ export const ChatProvider = ({ children }) => {
                         : 1,
                 }));
             }
+            getUsers();
         });
     };
 
@@ -99,6 +103,7 @@ export const ChatProvider = ({ children }) => {
         setSelectedUser,
         unseenMessages,
         setUnseenMessages,
+        latestMessages,
     };
 
     return (

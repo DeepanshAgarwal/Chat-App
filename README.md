@@ -9,6 +9,7 @@ A real-time chat application built with React (Vite) for the frontend and Node.j
 -   Online users indicator
 -   Persistent chat history (MongoDB)
 -   Responsive and modern UI
+-   Sidebar users sorted by latest message (auto-updates in real-time)
 
 ## Tech Stack
 
