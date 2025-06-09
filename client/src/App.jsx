@@ -5,9 +5,18 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import { Toaster } from "react-hot-toast";
 import { AuthContext } from "./context/AuthContext";
+import Loading from "./components/Loading";
 
 const App = () => {
-    const { authUser } = useContext(AuthContext);
+    const { authUser, loading } = useContext(AuthContext);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-[url('/bgImage.svg')] bg-contain">
+                <Loading />
+            </div>
+        );
+    }
 
     return (
         <div className="bg-[url('/bgImage.svg')] bg-contain">
