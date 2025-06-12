@@ -35,7 +35,7 @@ A real-time chat application built with React (Vite) for the frontend and Node.j
 #### 1. Clone the repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/DeepanshAgarwal/Chat-App.git
 cd Chat-App
 ```
 
