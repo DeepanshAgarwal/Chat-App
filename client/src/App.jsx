@@ -12,7 +12,7 @@ const App = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-[url('/bgImage.svg')] bg-contain">
+            <div className="flex items-center justify-center min-h-screen bg-[url('/bgImage.svg')] bg-contain backdrop-blur-2xl">
                 <Loading />
             </div>
         );
